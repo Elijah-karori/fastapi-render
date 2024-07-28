@@ -1,1 +1,8 @@
 fastapi[all]
+passlib
+bcrypt
+pydantic
+python-jose
+pymongo
+email-validator
+python-dotenv
