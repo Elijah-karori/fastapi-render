@@ -107,7 +107,7 @@ async def verify_otp(email: str, otp: str):
     users_collection.update_one({"email": email}, {"$set": {"reset_password_otp": None}})
     return {"message": "OTP verified successfully. You can now log in."}
 
-@router.post("/token", response_model=Token)
+@router.post("/token")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(form_data.username, form_data.password)
     if not user:
