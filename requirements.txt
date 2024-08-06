@@ -1,8 +1,10 @@
-fastapi[all]
-passlib
-bcrypt
+fastapi
+uvicorn
+passlib[bcrypt]
 pydantic
 python-jose
 pymongo
 email-validator
 python-dotenv
+pyjwt
+python-multipart
