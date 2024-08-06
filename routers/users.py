@@ -96,7 +96,7 @@ async def register_user(user: User):
     users_collection.insert_one(user_dict)
     send_email(user.email, "Your OTP Verification Code", f"Your OTP is: {user_dict['reset_password_otp']}")
 
-    return {"message": "Registration successful. Please check your email for the OTP verification code."}
+    return User(**user_dict)
 
 @router.post("/verify-otp")
 async def verify_otp(email: str, otp: str):
