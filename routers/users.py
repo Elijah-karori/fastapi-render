@@ -34,7 +34,7 @@ class UserRole(str, Enum):
 
 class User(BaseModel):
     email: str
-    password: str
+    password: Optional[str] = None
     role: UserRole
     phone_number: Optional[str] = None
     reset_password_otp: Optional[str] = None
@@ -155,7 +155,7 @@ async def login_verify_otp(email: str, otp: OTPVerification):
 async def read_users_me(current_user: User = Depends(get_current_user)):
     return current_user
 
-@router.get("/", response_model=List[User.email, User.role])
+@router.get("/", response_model=List[User])
 async def get_users():
     users = list(users_collection.find({}, {"_id": 0, "password": 0, "reset_password_otp": 0}))
     return users
