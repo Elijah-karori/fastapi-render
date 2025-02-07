@@ -8,3 +8,4 @@ email-validator
 python-dotenv
 pyjwt
 python-multipart
+logging
