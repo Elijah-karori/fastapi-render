@@ -1,6 +1,7 @@
 from typing import Optional
 from routers import users
 from routers import items
+from routers import authors
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -8,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 app.include_router(users.router)
 app.include_router(items.router)
+app.include_router(authors.router)
 
 origins = [
     "*",
