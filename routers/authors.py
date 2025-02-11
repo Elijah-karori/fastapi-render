@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 from datetime import datetime
 from fastapi import APIRouter, HTTPException, Depends, status
+from services.db import authors_collection, posts_collection
 import markdown
 
 
@@ -16,30 +17,33 @@ class MarkdownTemplate(BaseModel):
     meta_keywords: Optional[List[str]] = None
     content: str  # Markdown content
 
+class BlogPost(BaseModel):
+    title:str
+
 def markdown_to_html(markdown_content: str) -> str:
     return markdown.markdown(markdown_content)
 
-@app.post("/templates/", response_model=MarkdownTemplate)
+@router.post("/templates/", response_model=MarkdownTemplate)
 async def create_template(template: MarkdownTemplate):
     template_dict = template.dict()
-    await templates_collection.insert_one(template_dict)
+    await authors_collection.insert_one(template_dict)
     return template
 
-@app.get("/templates/", response_model=List[MarkdownTemplate])
+@router.get("/templates/", response_model=List[MarkdownTemplate])
 async def get_templates():
-    templates = await templates_collection.find().to_list(100)
+    templates = await authors_collection.find().to_list(100)
     return templates
 
-@app.get("/templates/{template_id}", response_model=MarkdownTemplate)
+@router.get("/templates/{template_id}", response_model=MarkdownTemplate)
 async def get_template(template_id: str):
-    template = await templates_collection.find_one({"_id": template_id})
+    template = await authors_collection.find_one({"_id": template_id})
     if template:
         return template
     raise HTTPException(status_code=404, detail="Template not found")
 
-@app.post("/articles/from-template/{template_id}", response_model=BlogPost)
+@router.post("/articles/from-template/{template_id}", response_model=BlogPost)
 async def create_article_from_template(template_id: str, article: BlogPost):
-    template = await templates_collection.find_one({"_id": template_id})
+    template = await authors_collection.find_one({"_id": template_id})
     if not template:
         raise HTTPException(status_code=404, detail="Template not found")
 
