@@ -9,3 +9,4 @@ python-dotenv
 pyjwt
 python-multipart
 logging
+markdown
