@@ -16,6 +16,11 @@ db = client.get_database("mydatabase")
 # Access the users collection
 users_collection = db.get_collection("users")
 
+# Access the authors collection
+authors_collection = db.get_collection("authors")
+
+# Access the posts collection
+posts_collection = db.get_collection("posts")
 # Send a ping to confirm a successful connection
 try:
     client.admin.command('ping')
